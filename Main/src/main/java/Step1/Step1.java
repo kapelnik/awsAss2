@@ -21,6 +21,7 @@ public class Step1 {
         private final static IntWritable one = new IntWritable(1);
         private Text word = new Text();
         private Text kohavit = new Text("*");
+        private Text kohaviot = new Text("*");
 
 
         @Override
@@ -42,16 +43,15 @@ public class Step1 {
             //--------------------------------
             // adding the words into the context
 
-            Step1Key w1Key = new Step1Key(first_word,kohavit,decade);
-            Step1Key w2Key = new Step1Key(kohavit,second_word,decade);
+            Step1Key w1Key = new Step1Key(first_word,kohavit,kohaviot);
+            Step1Key w2Key = new Step1Key(kohavit,second_word,kohaviot);
             Step1Key Nkey = new Step1Key(kohavit,kohavit,kohavit);
             Step1Key wordsKey = new Step1Key(first_word,second_word,decade);
 
-
+            context.write(Nkey, one);
             context.write(w1Key, one);
             context.write(w2Key, one);
             context.write(wordsKey, one);
-            context.write(Nkey, one);
 
         }
 
@@ -114,7 +114,8 @@ public class Step1 {
         job.setOutputValueClass(IntWritable.class);
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+//        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        job.waitForCompletion(true);
     }
 
 }

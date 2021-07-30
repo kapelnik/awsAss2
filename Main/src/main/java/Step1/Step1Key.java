@@ -4,7 +4,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 public class Step1Key implements WritableComparable<Step1Key> {
-    //key = {w1, w2}
+    //key = {w1, w2, decade}
 
     private String kohavit ="*";
     private Text w1;
@@ -58,9 +58,9 @@ public class Step1Key implements WritableComparable<Step1Key> {
         if (isN() && other.isN())
             return 0;
         if (this.isN())// im * *
-            return 1;
-        if(other.isN())// he is  * *
             return -1;
+        if(other.isN())// he is  * *
+            return 1;
 
         if (decade.compareTo(other.decade) > 0)
             return 1;
@@ -72,12 +72,7 @@ public class Step1Key implements WritableComparable<Step1Key> {
         if (w1.compareTo(other.w1) < 0)
             return -1;
 
-        if (w2.compareTo(other.w2) > 0)
-            return 1;
-        if (w2.compareTo(other.w2) < 0)
-            return -1;
-
-        return 0;
+        return w2.compareTo(other.w2);
     }
     @Override
     public String toString() {
